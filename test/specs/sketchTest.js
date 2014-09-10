@@ -63,6 +63,99 @@ describe('Sketch', function () {
 				returnValue.should.equal(sketch);
 			});
 		});
+
+		describe('#circle', function () {
+			var sketch = new Sketch();
+			sketch.use({
+				element : {
+					width : 50,
+					height : 75
+				},
+				context : {
+					beginPath : function () {},
+					arc : function () {},
+					fill : function () {}
+				}
+			});
+
+			var beginPathSpy = sinon.spy(sketch.canvas.context, 'beginPath');
+			var arcSpy = sinon.spy(sketch.canvas.context, 'arc');
+			var fillSpy = sinon.spy(sketch.canvas.context, 'fill');
+			var returnValue = sketch.draw('shape')('circle')(20, 30, 10);
+
+			it('should use context\'s api to draw a circle', function () {
+				beginPathSpy.should.have.been.called;
+				arcSpy.should.have.been.called;
+				fillSpy.should.have.been.called;
+			});
+
+			it('should return sketch object for chaining', function () {
+				returnValue.should.equal(sketch);
+			});
+		});
+
+		describe('#triangle', function () {
+			var sketch = new Sketch();
+			sketch.use({
+				element : {
+					width : 50,
+					height : 75
+				},
+				context : {
+					beginPath : function () {},
+					moveTo : function () {},
+					lineTo : function () {},
+					fill : function () {}
+				}
+			});
+			var beginPathSpy = sinon.spy(sketch.canvas.context, 'beginPath');
+			var moveToSpy = sinon.spy(sketch.canvas.context, 'moveTo');
+			var lineToSpy = sinon.spy(sketch.canvas.context, 'lineTo');
+			var fillSpy = sinon.spy(sketch.canvas.context, 'fill');
+			var returnValue = sketch.draw('shape')('triangle')({
+					x : 10,
+					y : 15
+				},
+				{
+					x : 20,
+					y : 15
+				},
+				{
+					x : 10,
+					y : 35
+				});
+
+			it('should use context\'s api to draw triangle', function () {
+				beginPathSpy.should.have.been.called;
+				moveToSpy.should.have.been.called;
+				lineToSpy.should.have.been.calledTwice;
+				fillSpy.should.have.been.called;
+			});
+
+			it('should return sketch object for chaining', function () {
+				returnValue.should.equal(sketch);
+			});
+		});
+
+		describe('#text', function () {
+			var sketch = new Sketch();
+			sketch.use({
+				element : {},
+				context : {
+					fillText : function () {}
+				}
+			});
+			var fillTextSpy = sinon.spy(sketch.canvas.context, 'fillText');
+			var returnValue = sketch.draw('shape')('text')('testing 123');
+
+			it('should use context\'s api to render text', function () {
+				fillTextSpy.should.have.been.called;
+			});
+
+			it('should return sketch object for chaining', function () {
+				returnValue.should.equal(sketch);
+			});
+		});
 	});
 
 	describe('#use()', function () {
