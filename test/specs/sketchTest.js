@@ -159,6 +159,25 @@ describe('Sketch', function () {
 	});
 
 	describe('methods', function () {
+		describe('#shape', function () {
+			var sketch = new Sketch();
+			sketch.use({
+				element : {},
+				context : {
+					beginPath : function () {},
+					arc : function () {},
+					fill : function () {}
+				}
+			});
+			var circleSpy = sinon.spy(sketch.shapes, 'circle');
+			var returnValue = sketch.methods.shape.call(sketch, 'circle');
+			returnValue(100, 200, 300);
+			it('should return function from shapes object', function () {
+				returnValue.should.be.a('function');
+				circleSpy.should.have.been.calledWith(100, 200, 300);
+			});
+		});
+
 		describe('#pallete()', function () {
 			var sketch = new Sketch();
 			var returnPalleteValue = sketch.methods.pallete.call(sketch, {
@@ -170,6 +189,20 @@ describe('Sketch', function () {
 
 			it('should return #draw() function for chaining', function () {
 				returnPalleteValue.should.equal(sketch.draw);
+			});
+
+			describe('when passed obj with no matching properties', function () {
+				var sketch = new Sketch();
+				var returnValue = sketch.methods.pallete.call(sketch, {foo : 'bar'});
+
+				it('should not create new propeties to pallete', function () {
+					var isUndefined = sketch.pallete.foo ===  undefined;
+					isUndefined.should.be.true;
+				});
+
+				it('should return #draw() function for chaining', function () {
+					returnValue.should.equal(sketch.draw);
+				});
 			});
 		});
 	});
