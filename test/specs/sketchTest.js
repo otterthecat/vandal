@@ -180,28 +180,34 @@ describe('Sketch', function () {
 
 		describe('#pallete()', function () {
 			var sketch = new Sketch();
-			var returnPalleteValue = sketch.methods.pallete.call(sketch, {
+			sketch.use({
+				element : {},
+				context : {
+					fillStyle : ''
+				}
+			});
+
+			var returnValue = sketch.methods.pallete.call(sketch, {
 				fillStyle : '#cccccc'
 			});
 			it('should set pallete object with defined properties', function () {
-				sketch.pallete.fillStyle.should.equal('#cccccc');
-			});
-
-			it('should return #draw() function for chaining', function () {
-				returnPalleteValue.should.equal(sketch.draw);
+				var color = sketch.canvas.context.fillStyle;
+				color.should.equal('#cccccc');
 			});
 
 			describe('when passed obj with no matching properties', function () {
 				var sketch = new Sketch();
+				sketch.use({
+					element : {},
+					context : {
+						fillStyle : ''
+					}
+				});
 				var returnValue = sketch.methods.pallete.call(sketch, {foo : 'bar'});
 
 				it('should not create new propeties to pallete', function () {
-					var isUndefined = sketch.pallete.foo ===  undefined;
+					var isUndefined = sketch.canvas.context.foo ===  undefined;
 					isUndefined.should.be.true;
-				});
-
-				it('should return #draw() function for chaining', function () {
-					returnValue.should.equal(sketch.draw);
 				});
 			});
 		});
