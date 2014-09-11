@@ -158,6 +158,22 @@ describe('Sketch', function () {
 		});
 	});
 
+	describe('methods', function () {
+		describe('#pallete()', function () {
+			var sketch = new Sketch();
+			var returnPalleteValue = sketch.methods.pallete.call(sketch, {
+				fillStyle : '#cccccc'
+			});
+			it('should set pallete object with defined properties', function () {
+				sketch.pallete.fillStyle.should.equal('#cccccc');
+			});
+
+			it('should return #draw() function for chaining', function () {
+				returnPalleteValue.should.equal(sketch.draw);
+			});
+		});
+	});
+
 	describe('#use()', function () {
 		var sketch = new Sketch();
 		var fakeCanvas = {element : 'foo', context : 'bar'};
