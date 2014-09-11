@@ -14,10 +14,10 @@ sketch.use({
 		element: canvas,
 		context: canvas.getContext('2d')
 	})
-	.draw('shape')('rectangle')(10, 10, 100, 200)
-	.draw('shape')('circle')(240, 240, 40)
+	.draw('pallete')({fillStyle : '#ff0033'})('shape')('rectangle')(10, 10, 100, 200)
+	.draw('pallete')({fillStyle : '#2225e3'})('shape')('circle')(240, 240, 40)
 	.draw('shape')('triangle')({x: 220, y: 75}, {x: 285, y: 75}, {x: 285, y: 200})
-	.draw('shape')('text')('Hello!', 300, 20);
+	.draw('pallete')({fillStyle : '#000', font : '16px sans-serif'})('shape')('text')('Hello!', 300, 20);
 
 },{"../../lib/sketch":2}],2:[function(require,module,exports){
 var Sketch = function () {
@@ -75,11 +75,11 @@ var methods = {
 
 		for(var item in obj) {
 			if(this.pallete.hasOwnProperty(item)) {
-				this.pallete[item] = obj[item];
+				this.canvas.context[item] = obj[item];
 			}
 		}
 
-		return this.draw;
+		return this.draw.bind(this);
 	}
 };
 
