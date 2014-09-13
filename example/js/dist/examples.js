@@ -17,6 +17,7 @@ sketch.use({
 	.draw('pallete')({fillStyle : '#ff0033'})('shape')('rectangle')(10, 10, 100, 200)
 	.draw('pallete')({fillStyle : '#2225e3'})('shape')('circle')(240, 240, 40)
 	.draw('shape')('triangle')({x: 220, y: 75}, {x: 285, y: 75}, {x: 285, y: 200})
+	.draw('shape')('line')({x: 0, y: 290}, {x: 200, y: 150}, {x: 400, y: 290})
 	.draw('pallete')({fillStyle : '#000', font : '16px sans-serif'})('shape')('text')('Hello!', 300, 20);
 
 },{"../../lib/sketch":2}],2:[function(require,module,exports){
@@ -55,6 +56,17 @@ var shapes = {
 		this.canvas.context.lineTo(middle.x, middle.y);
 		this.canvas.context.lineTo(end.x, end.y);
 		this.canvas.context.fill();
+		return this;
+	},
+	line: function () {
+		'use strict';
+
+		this.canvas.context.beginPath();
+		this.canvas.context.moveTo(arguments[0].x, arguments[0].y);
+		for(var i = 1; i < arguments.length; i += 1){
+			this.canvas.context.lineTo(arguments[i].x, arguments[i].y);
+		}
+		this.canvas.context.stroke();
 		return this;
 	},
 	text : function (txt, x, y) {
@@ -97,7 +109,6 @@ Sketch.prototype = {
 
 	draw : function (type) {
 		'use strict';
-
 		return this.methods[type].bind(this);
 	},
 
