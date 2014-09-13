@@ -137,6 +137,41 @@ describe('Sketch', function () {
 			});
 		});
 
+		describe('#line', function () {
+			var sketch = new Sketch();
+			sketch.use({
+				element : {},
+				context : {
+					beginPath : function () {},
+					moveTo : function () {},
+					lineTo : function () {},
+					stroke : function () {}
+				}
+			});
+			var beginPathSpy = sinon.spy(sketch.canvas.context, 'beginPath');
+			var moveToSpy = sinon.spy(sketch.canvas.context, 'moveTo');
+			moveToSpy.withArgs(10, 15);
+			var lineToSpy = sinon.spy(sketch.canvas.context, 'lineTo');
+			var strokeSpy = sinon.spy(sketch.canvas.context, 'stroke');
+			var returnValue = sketch.draw('shape')('line')(
+					{x : 10, y : 15},
+					{x : 20, y : 25},
+					{x : 30, y : 35}
+				);
+
+			it('should use context\'s api to draw line(s)', function () {
+				beginPathSpy.should.have.been.called;
+				moveToSpy.withArgs(10, 15).should.have.been.calledOnce;
+				lineToSpy.firstCall.calledWith(20, 25).should.be.true;
+				lineToSpy.lastCall.calledWith(30, 35).should.be.true;
+				strokeSpy.should.have.been.called;
+			});
+
+			it('should return sketch object for chaining', function () {
+				returnValue.should.equal(sketch);
+			});
+		});
+
 		describe('#text', function () {
 			var sketch = new Sketch();
 			sketch.use({
@@ -187,7 +222,7 @@ describe('Sketch', function () {
 				}
 			});
 
-			var returnValue = sketch.methods.pallete.call(sketch, {
+			sketch.methods.pallete.call(sketch, {
 				fillStyle : '#cccccc'
 			});
 			it('should set pallete object with defined properties', function () {
@@ -203,7 +238,7 @@ describe('Sketch', function () {
 						fillStyle : ''
 					}
 				});
-				var returnValue = sketch.methods.pallete.call(sketch, {foo : 'bar'});
+				sketch.methods.pallete.call(sketch, {foo : 'bar'});
 
 				it('should not create new propeties to pallete', function () {
 					var isUndefined = sketch.canvas.context.foo ===  undefined;
