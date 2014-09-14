@@ -1,1 +1,1 @@
-module.exports = require('./lib/sketch');
+module.exports = require('./lib/vandal');

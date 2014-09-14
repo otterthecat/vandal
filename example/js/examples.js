@@ -1,4 +1,4 @@
-var Sketch = require('../../lib/sketch');
+var Vandal = require('../../lib/vandal');
 
 var target = document.querySelector('.target');
 
@@ -8,8 +8,8 @@ canvas.height = 300;
 
 target.appendChild(canvas);
 
-var sketch = new Sketch();
-sketch.use({
+var vandal = new Vandal();
+vandal.use({
 		element: canvas,
 		context: canvas.getContext('2d')
 	})

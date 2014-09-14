@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var Sketch = require('../../lib/sketch');
+var Vandal = require('../../lib/vandal');
 
 var target = document.querySelector('.target');
 
@@ -9,8 +9,8 @@ canvas.height = 300;
 
 target.appendChild(canvas);
 
-var sketch = new Sketch();
-sketch.use({
+var vandal = new Vandal();
+vandal.use({
 		element: canvas,
 		context: canvas.getContext('2d')
 	})
@@ -20,8 +20,8 @@ sketch.use({
 	.draw('shape')('line')({x: 0, y: 290}, {x: 200, y: 150}, {x: 400, y: 290})
 	.draw('pallete')({fillStyle : '#000', font : '16px sans-serif'})('shape')('text')('Hello!', 300, 20);
 
-},{"../../lib/sketch":2}],2:[function(require,module,exports){
-var Sketch = function () {
+},{"../../lib/vandal":2}],2:[function(require,module,exports){
+var Vandal = function () {
 	'use strict';
 
 	this.canvas = null;
@@ -48,22 +48,22 @@ var shapes = {
 		this.canvas.context.fill();
 		return this;
 	},
-	triangle : function (start, middle, end) {
-		'use strict';
-
-		this.canvas.context.beginPath();
-		this.canvas.context.moveTo(start.x, start.y);
-		this.canvas.context.lineTo(middle.x, middle.y);
-		this.canvas.context.lineTo(end.x, end.y);
-		this.canvas.context.fill();
-		return this;
-	},
-	line: function () {
+	triangle : function () {
 		'use strict';
 
 		this.canvas.context.beginPath();
 		this.canvas.context.moveTo(arguments[0].x, arguments[0].y);
-		for(var i = 1; i < arguments.length; i += 1){
+		this.canvas.context.lineTo(arguments[1].x, arguments[1].y);
+		this.canvas.context.lineTo(arguments[2].x, arguments[2].y);
+		this.canvas.context.fill();
+		return this;
+	},
+	line : function () {
+		'use strict';
+
+		this.canvas.context.beginPath();
+		this.canvas.context.moveTo(arguments[0].x, arguments[0].y);
+		for(var i = 1; i < arguments.length; i += 1) {
 			this.canvas.context.lineTo(arguments[i].x, arguments[i].y);
 		}
 		this.canvas.context.stroke();
@@ -95,7 +95,7 @@ var methods = {
 	}
 };
 
-Sketch.prototype = {
+Vandal.prototype = {
 	shapes : shapes,
 
 	methods : methods,
@@ -121,6 +121,6 @@ Sketch.prototype = {
 	}
 };
 
-module.exports = Sketch;
+module.exports = Vandal;
 
 },{}]},{},[1]);

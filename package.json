@@ -1,17 +1,17 @@
 {
-	"name": "sketch",
-	"title": "sketch",
+	"name": "vandal",
+	"title": "vandal",
 	"description": "A small wrapper build around canvas api",
 	"version": "0.0.1",
 	"private": true,
-	"homepage": "git@github.com:otterthecat/sketch.git",
+	"homepage": "git@github.com:otterthecat/vandal.git",
 	"author": {
 		"name": "Otter the Cat",
 		"email": "otc@otterthecat.com"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/otterthecat/sketch.git"
+		"url": "https://github.com/otterthecat/vandal.git"
 	},
 	"scripts": {
 		"test": "mocha"
