@@ -34,7 +34,8 @@
 	},
 	"keywords": [
 		"canvas",
-		"browserify",
+		"client",
+		"browserify-compatible",
 		"otc"
 	]
 }
