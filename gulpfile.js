@@ -129,6 +129,12 @@ gulp.task('coverage', function (cb) {
 		});
 });
 
+gulp.task('watch', function () {
+	'use strict';
+
+	gulp.watch(sources[1], ['default']);
+});
+
 // Grouped Tasks
 gulp.task('default', ['format', 'lint', 'complexity', 'test']);
 gulp.task('report', ['plato', 'coverage']);
