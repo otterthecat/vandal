@@ -9,10 +9,7 @@ canvas.height = 300;
 target.appendChild(canvas);
 
 var vandal = new Vandal();
-vandal.use({
-		element: canvas,
-		context: canvas.getContext('2d')
-	})
+vandal.use(canvas)
 	.draw('pallete')({fillStyle : '#ff0033'})('shape')('rectangle')(10, 10, 100, 200)
 	.draw('pallete')({fillStyle : '#2225e3'})('shape')('circle')(240, 240, 40)
 	.draw('shape')('triangle')({x: 220, y: 75}, {x: 285, y: 75}, {x: 285, y: 200})
