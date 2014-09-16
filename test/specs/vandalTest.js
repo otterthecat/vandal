@@ -9,7 +9,28 @@ chai.use(sinonChai);
 
 // stubs
 // /////////////////////////////////////////////////////////
+var canvas = function () {
+	'use strict';
 
+	return {
+		width : 50,
+		height : 75,
+		getContext : function () {
+			return {
+				fillStyle : '',
+				fillRect : function () {},
+				beginPath : function () {},
+				arc : function () {},
+				moveTo : function () {},
+				lineTo : function () {},
+				fill : function () {},
+				stroke : function () {},
+				fillText : function () {},
+				clearRect : function () {}
+			};
+		}
+	};
+};
 
 
 // modules to test
@@ -42,15 +63,7 @@ describe('Vandal', function () {
 	describe('shapes', function () {
 		describe('#rectangle', function () {
 			var vandal = new Vandal();
-			vandal.use({
-				element : {
-					width : 50,
-					height : 75
-				},
-				context : {
-					fillRect : function () {}
-				}
-			});
+			vandal.use(canvas());
 
 			var fillRectSpy = sinon.spy(vandal.canvas.context, 'fillRect');
 			var returnValue = vandal.draw('shape')('rectangle')(0, 0, 50, 75);
@@ -66,17 +79,7 @@ describe('Vandal', function () {
 
 		describe('#circle', function () {
 			var vandal = new Vandal();
-			vandal.use({
-				element : {
-					width : 50,
-					height : 75
-				},
-				context : {
-					beginPath : function () {},
-					arc : function () {},
-					fill : function () {}
-				}
-			});
+			vandal.use(canvas());
 
 			var beginPathSpy = sinon.spy(vandal.canvas.context, 'beginPath');
 			var arcSpy = sinon.spy(vandal.canvas.context, 'arc');
@@ -96,18 +99,7 @@ describe('Vandal', function () {
 
 		describe('#triangle', function () {
 			var vandal = new Vandal();
-			vandal.use({
-				element : {
-					width : 50,
-					height : 75
-				},
-				context : {
-					beginPath : function () {},
-					moveTo : function () {},
-					lineTo : function () {},
-					fill : function () {}
-				}
-			});
+			vandal.use(canvas());
 			var beginPathSpy = sinon.spy(vandal.canvas.context, 'beginPath');
 			var moveToSpy = sinon.spy(vandal.canvas.context, 'moveTo');
 			var lineToSpy = sinon.spy(vandal.canvas.context, 'lineTo');
@@ -141,15 +133,7 @@ describe('Vandal', function () {
 
 		describe('#line', function () {
 			var vandal = new Vandal();
-			vandal.use({
-				element : {},
-				context : {
-					beginPath : function () {},
-					moveTo : function () {},
-					lineTo : function () {},
-					stroke : function () {}
-				}
-			});
+			vandal.use(canvas());
 			var beginPathSpy = sinon.spy(vandal.canvas.context, 'beginPath');
 			var moveToSpy = sinon.spy(vandal.canvas.context, 'moveTo');
 			var lineToSpy = sinon.spy(vandal.canvas.context, 'lineTo');
@@ -175,12 +159,7 @@ describe('Vandal', function () {
 
 		describe('#text', function () {
 			var vandal = new Vandal();
-			vandal.use({
-				element : {},
-				context : {
-					fillText : function () {}
-				}
-			});
+			vandal.use(canvas());
 			var fillTextSpy = sinon.spy(vandal.canvas.context, 'fillText');
 			var returnValue = vandal.draw('shape')('text')('testing 123', 0, 1);
 
@@ -197,14 +176,7 @@ describe('Vandal', function () {
 	describe('methods', function () {
 		describe('#shape', function () {
 			var vandal = new Vandal();
-			vandal.use({
-				element : {},
-				context : {
-					beginPath : function () {},
-					arc : function () {},
-					fill : function () {}
-				}
-			});
+			vandal.use(canvas());
 			var circleSpy = sinon.spy(vandal.shapes, 'circle');
 			var returnValue = vandal.methods.shape.call(vandal, 'circle');
 			returnValue(100, 200, 300);
@@ -216,12 +188,7 @@ describe('Vandal', function () {
 
 		describe('#pallete()', function () {
 			var vandal = new Vandal();
-			vandal.use({
-				element : {},
-				context : {
-					fillStyle : ''
-				}
-			});
+			vandal.use(canvas());
 
 			vandal.methods.pallete.call(vandal, {
 				fillStyle : '#cccccc'
@@ -233,12 +200,7 @@ describe('Vandal', function () {
 
 			describe('when passed obj with no matching properties', function () {
 				var vandal = new Vandal();
-				vandal.use({
-					element : {},
-					context : {
-						fillStyle : ''
-					}
-				});
+				vandal.use(canvas());
 				vandal.methods.pallete.call(vandal, {foo : 'bar'});
 
 				it('should not create new propeties to pallete', function () {
@@ -251,12 +213,14 @@ describe('Vandal', function () {
 
 	describe('#use()', function () {
 		var vandal = new Vandal();
-		var fakeCanvas = {element : 'foo', context : 'bar'};
+		var fakeCanvas = canvas();
 		var returnedValue = vandal.use(fakeCanvas);
 
 		it('should set .canvas property', function () {
-			vandal.canvas.element.should.equal('foo');
-			vandal.canvas.context.should.equal('bar');
+			vandal.canvas.element.should.equal(fakeCanvas);
+			vandal.canvas.width.should.equal(fakeCanvas.width);
+			vandal.canvas.height.should.equal(fakeCanvas.height);
+			vandal.canvas.context.should.be.an('object');
 		});
 
 		it('should return vandal object for chaining', function () {
@@ -266,20 +230,12 @@ describe('Vandal', function () {
 
 	describe('#clear()', function () {
 		var vandal = new Vandal();
-		vandal.use({
-			element : {
-				width : 10,
-				height : 20
-			},
-			context : {
-				clearRect : function () {}
-			}
-		});
+		vandal.use(canvas());
 		var clearSpy = sinon.spy(vandal.canvas.context, 'clearRect');
 		var returnValue = vandal.clear();
 		it('should clear canvas for redraw', function () {
-			var w = vandal.canvas.element.width;
-			var h = vandal.canvas.element.height;
+			var w = vandal.canvas.width;
+			var h = vandal.canvas.height;
 			clearSpy.withArgs(0, 0, w, h).should.have.been.calledOnce;
 		});
 
