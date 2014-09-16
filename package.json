@@ -13,8 +13,21 @@
 		"type": "git",
 		"url": "https://github.com/otterthecat/vandal.git"
 	},
+	"directories": {
+		"lib": "./lib",
+		"test": "./test",
+		"example": "./examples"
+	},
+	"main": "index.js",
+	"bugs": {
+		"url": "https://github.com/otterthecat/vandal/issues"
+	},
+	"licenses": {
+		"type": "MIT",
+		"url": "https://github.com/otterthecat/vandal/blob/master/LICENSE.txt"
+	},
 	"scripts": {
-		"test": "mocha"
+		"test": "./node_modules/.bin/gulp"
 	},
 	"devDependencies": {
 		"chai": "^1.9.1",
