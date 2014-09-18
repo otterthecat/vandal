@@ -3,7 +3,6 @@
 	"title": "vandal",
 	"description": "A small wrapper built around canvas api",
 	"version": "0.0.1",
-	"private": true,
 	"homepage": "git@github.com:otterthecat/vandal.git",
 	"author": {
 		"name": "Otter the Cat",
