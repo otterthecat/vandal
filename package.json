@@ -3,14 +3,14 @@
 	"title": "vandal",
 	"description": "A small wrapper built around canvas api",
 	"version": "0.0.1",
-	"homepage": "git@github.com:otterthecat/vandal.git",
+	"homepage": "https://github.com/otterthecat/vandal",
 	"author": {
 		"name": "Otter the Cat",
 		"email": "otc@otterthecat.com"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/otterthecat/vandal.git"
+		"url": "git@github.com:otterthecat/vandal.git"
 	},
 	"directories": {
 		"lib": "./lib",
