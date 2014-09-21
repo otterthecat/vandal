@@ -15,3 +15,10 @@ vandal.use(canvas)
 	.draw('shape')('triangle')({x: 220, y: 75}, {x: 285, y: 75}, {x: 285, y: 200})
 	.draw('shape')('line')({x: 0, y: 290}, {x: 200, y: 150}, {x: 400, y: 290})
 	.draw('pallete')({fillStyle : '#000', font : '16px sans-serif'})('shape')('text')('Hello!', 300, 20);
+
+var pos = 1;
+
+vandal.animate(function(v){
+	var n  = pos += 2;
+	v.draw('shape')('line')({x: 0, y: 150}, {x: n, y: 150});
+});

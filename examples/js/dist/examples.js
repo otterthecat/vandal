@@ -17,6 +17,13 @@ vandal.use(canvas)
 	.draw('shape')('line')({x: 0, y: 290}, {x: 200, y: 150}, {x: 400, y: 290})
 	.draw('pallete')({fillStyle : '#000', font : '16px sans-serif'})('shape')('text')('Hello!', 300, 20);
 
+var pos = 1;
+
+vandal.animate(function(v){
+	var n  = pos += 2;
+	v.draw('shape')('line')({x: 0, y: 150}, {x: n, y: 150});
+});
+
 },{"../../lib/vandal":2}],2:[function(require,module,exports){
 var Vandal = function () {
 	'use strict';
@@ -120,6 +127,17 @@ Vandal.prototype = {
 		this.canvas.context
 			.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		return this;
+	},
+
+	animate : function (callback) {
+		'use strict';
+		var self = this;
+		var iterator = function () {
+			self.clear();
+			callback(self);
+			requestAnimationFrame(iterator);
+		};
+		requestAnimationFrame(iterator);
 	}
 };
 
