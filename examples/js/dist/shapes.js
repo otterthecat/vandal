@@ -1,3 +1,23 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var Vandal = require('../../lib/vandal');
+
+var target = document.querySelector('.target');
+
+var canvas = document.createElement('canvas');
+canvas.width = 400;
+canvas.height = 300;
+
+target.appendChild(canvas);
+
+var vandal = new Vandal();
+vandal.use(canvas)
+	.draw('pallete')({fillStyle : '#ff0033'})('shape')('rectangle')(10, 10, 100, 200)
+	.draw('pallete')({fillStyle : '#2225e3'})('shape')('circle')(240, 240, 40)
+	.draw('shape')('triangle')({x: 220, y: 75}, {x: 285, y: 75}, {x: 285, y: 200})
+	.draw('shape')('line')({x: 0, y: 290}, {x: 200, y: 150}, {x: 400, y: 290})
+	.draw('pallete')({fillStyle : '#000', font : '16px sans-serif'})('shape')('text')('Hello!', 300, 20);
+
+},{"../../lib/vandal":2}],2:[function(require,module,exports){
 var Vandal = function () {
 	'use strict';
 
@@ -109,12 +129,12 @@ Vandal.prototype = {
 		var iterator = function (step) {
 			self.clear();
 			var proceed = callback(self, increment += 1, step);
-			if (proceed) {
-				requestAnimationFrame(iterator);
-			}
+			if (proceed) requestAnimationFrame(iterator);
 		};
 		requestAnimationFrame(iterator);
 	}
 };
 
 module.exports = Vandal;
+
+},{}]},{},[1]);
