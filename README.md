@@ -52,3 +52,25 @@ The examples folder shows each shape being created.
 
 ### #clear()
 Clears the canvas, typically to prepare for redraw.
+
+### #animate(callback)
+Repeats callback function using `requestAnimationKeyframe()`.
+This function will take care of clearing the canvas and repeated calls of `requestAnimationFrame`.
+The callback function is passed three arguments:
+
+ * *scope* -  this would be the vandal instance that made the call.
+ * *increment* - an integer, starting with `1` that is a reference the number of times an animation frame is called
+ * *timestamp* - the timestamp passed from `requestAnimationKeyframe()`
+
+The animation will repeat until/unless the callback returns a boolean value of `false`.
+For instance, if you wanted to end the animation after a line is 100 pixels long, you would return `true`
+until the line is the desired length, which would then have your callback function return `false`, thus
+stoping your animation sequence.
+
+```javascript
+var vandal = new Vandal();
+vandal.use(canvas).animate(function(scope, increment, timestamp){
+	scope.draw('shape')('line')({x: 0, y: 150}, {x: inc, y: 150});
+	return inc < 100 ? true : false;
+});
+```
