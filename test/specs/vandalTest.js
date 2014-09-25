@@ -32,6 +32,10 @@ var canvas = function () {
 	};
 };
 
+global.requestAnimationFrame = function (fn) {
+	'use strict';
+	fn();
+}
 
 // modules to test
 // /////////////////////////////////////////////////////////
@@ -241,6 +245,21 @@ describe('Vandal', function () {
 
 		it('should return itself for chaining', function () {
 			returnValue.should.equal(vandal);
+		});
+	});
+
+	describe('#animate()', function () {
+		var vandal = new Vandal();
+		vandal.use(canvas());
+		var myObj, myInc, myTime;
+		vandal.animate(function (instance, increment, timestamp) {
+			myObj = instance;
+			myInc = increment;
+			myTime = timestamp;
+		});
+
+		it('should execute callback', function () {
+			myObj.should.equal(vandal);
 		});
 	});
 });
