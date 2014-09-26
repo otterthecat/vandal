@@ -34,8 +34,8 @@ var canvas = function () {
 
 global.requestAnimationFrame = function (fn) {
 	'use strict';
-	fn();
-}
+	fn(new Date());
+};
 
 // modules to test
 // /////////////////////////////////////////////////////////
@@ -256,10 +256,22 @@ describe('Vandal', function () {
 			myObj = instance;
 			myInc = increment;
 			myTime = timestamp;
+
+			return increment < 3;
 		});
 
-		it('should execute callback', function () {
-			myObj.should.equal(vandal);
+		describe('the callback', function () {
+			it('should execute', function () {
+				myObj.should.equal(vandal);
+			});
+
+			it('should have passed correct arguments', function () {
+				myTime.should.be.an.object;
+			});
+
+			it('should repeat until returned boolean is false', function () {
+				myInc.should.equal(3);
+			});
 		});
 	});
 });
