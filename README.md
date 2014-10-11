@@ -70,7 +70,7 @@ stoping your animation sequence.
 ```javascript
 var vandal = new Vandal();
 vandal.use(canvas).animate(function(scope, increment, timestamp){
-	scope.draw('shape')('line')({x: 0, y: 150}, {x: inc, y: 150});
-	return inc < 100 ? true : false;
+	scope.draw('shape')('line')({x: 0, y: 150}, {x: increment, y: 150});
+	return increment < 100 ? true : false;
 });
 ```
